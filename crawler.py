@@ -55,5 +55,3 @@ if url_data:
     for tr in table.select('tbody tr'):
         index = table_heads[COUNTRY]
         countries[tr.select('td')[index].string] = tr
-
-# print(searchCountry('China')[DEATHS])
