@@ -42,22 +42,23 @@ def searchCountry(name):
 def get_url_response(url):
     return urlopen(Request(url, headers=AGENT))
 
+def refresh_data():
+    try:
+        # establish connection
+        url_data = get_url_response(URL)
+        countries.clear()
+    except urllib.error.URLError:
+        print('Please check your internet connection...')
 
-try:
-    # establish connection
-    url_data = get_url_response(URL)
-except urllib.error.URLError:
-    print('Please check your internet connection...')
+    if url_data:
+        # get html page content
+        html = BeautifulSoup(url_data.read(), 'html.parser')
+        table = html.body.select_one('#main_table_countries_today')
 
-if url_data:
-    # get html page content
-    html = BeautifulSoup(url_data.read(), 'html.parser')
-    table = html.body.select_one('#main_table_countries_today')
-
-    # build countries hash table from data
-    for tr in table.select('tbody tr'):
-        index = table_heads[COUNTRY]
-        countries[tr.select('td')[index].string] = tr
+        # build hash from table data
+        for tr in table.select('tbody tr'):
+            index = table_heads[COUNTRY]
+            countries[tr.select('td')[index].string] = tr
 
 
 # print(searchCountry('USA')[CASES])
