@@ -14,6 +14,7 @@ def clear_screen():
         child.pack_forget()
 
 def display_results(e=None):
+    crawler.refresh_data()
     result = crawler.searchCountry(search.get())
     clear_screen()
     if result != search.placeholder_text:
