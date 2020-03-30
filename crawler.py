@@ -39,10 +39,13 @@ def searchCountry(name):
     
     return data
 
+def get_url_response(url):
+    return urlopen(Request(url, headers=AGENT))
+
 
 try:
     # establish connection
-    url_data = urlopen(Request(URL, headers=AGENT))
+    url_data = get_url_response(URL)
 except urllib.error.URLError:
     print('Please check your internet connection...')
 
@@ -55,3 +58,6 @@ if url_data:
     for tr in table.select('tbody tr'):
         index = table_heads[COUNTRY]
         countries[tr.select('td')[index].string] = tr
+
+
+# print(searchCountry('USA')[CASES])
